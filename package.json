@@ -1,0 +1,23 @@
+{
+  "name": "fis3-hook-copy",
+  "version": "1.0.0",
+  "description": "A plugin for fis3 to copy file or directories",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ystarlongzi/fis3-hook-copy"
+  },
+  "bugs": {
+    "url": "https://github.com/ystarlongzi/fis3-hook-copy/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": " "
+  },
+  "keywords": [
+    "fis3",
+    "copy file",
+    "copy directory"
+  ],
+  "author": "zhangzilong.zzl@163.com",
+  "license": "ISC"
+}

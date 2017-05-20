@@ -32,7 +32,7 @@ npm install fis3-hook-copy
 
 配置如下：
 
-```
+```javascript
 // 为了提高编译速度，我们配置如下的过滤器，并且我们也没有添加 `/locals` 和 `/mock`
 fis.set('project.files', ['*.html', 'server.conf']);
 

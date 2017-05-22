@@ -1,4 +1,5 @@
 {
+  "author": "zhangzilong.zzl@163.com",
   "name": "fis3-hook-copy",
   "version": "1.0.0",
   "description": "A plugin for fis3 to copy file or directories",
@@ -11,13 +12,28 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": " "
+    "test": " ",
+    "lint-staged": "lint-staged",
+    "lint-staged:es": "eslint ./.eslintrc.js"
   },
   "keywords": [
     "fis3",
     "copy file",
     "copy directory"
   ],
-  "author": "zhangzilong.zzl@163.com",
-  "license": "ISC"
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-babel": "^4.1.1",
+    "lint-staged": "^3.4.2",
+    "pre-commit": "^1.2.2"
+  },
+  "license": "ISC",
+  "lint-staged": {
+    "*.js": "lint-staged:es"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ]
 }

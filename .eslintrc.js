@@ -5,12 +5,20 @@ module.exports = {
     node: true,
   },
   globals: {
-    fis: true
+    fis: true,
   },
-  extends: 'eslint-config-airbnb',
+  extends: 'airbnb-base',
   parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module'
+    sourceType: 'module',
+  },
+  rules: {
+    'arrow-parens': [2, 'as-needed'],
+    'brace-style': [2, 'stroustrup'],
+    'no-underscore-dangle': 0,
+    'prefer-const': [2, {
+      destructuring: 'all',
+    }],
   },
   plugins: [
     'babel',

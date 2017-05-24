@@ -1,22 +1,17 @@
-var fs = require('fs');
-var path = require('path');
-var cliArgv = process.argv;
-var cwd = fis.processCWD || process.cwd();
-var projectPath = fis.project.getProjectPath();
-var dest = 'preview';
+const fs = require('fs');
+const path = require('path');
+
+const cliArgv = process.argv;
+const cwd = fis.processCWD || process.cwd();
+const projectPath = fis.project.getProjectPath();
+let dest = 'preview';
 
 
-cliArgv.forEach(function (val, i) {
-  if (val === '-d' || val === '--dest') {
-    dest = cliArgv[i + 1];
-  }
-});
-dest = normalizePath(dest, projectPath);
-
+function noop() {}
 
 // refer to: http://t.cn/Ra8HWUq
 function getServerInfo() {
-  var conf = path.join(fis.project.getTempPath('server'), 'conf.json');
+  const conf = path.join(fis.project.getTempPath('server'), 'conf.json');
 
   if (fis.util.isFile(conf)) {
     return fis.util.readJSON(conf);
@@ -26,49 +21,57 @@ function getServerInfo() {
 }
 
 function getServerRoot() {
-  var key = 'FIS_SERVER_DOCUMENT_ROOT';
-  var serverInfo = getServerInfo();
+  const key = 'FIS_SERVER_DOCUMENT_ROOT';
+  const serverInfo = getServerInfo();
 
   if (process.env && process.env[key]) {
-    var path = process.env[key];
+    const rootPath = process.env[key];
 
-    if (fis.util.exists(path) && !fis.util.isDir(path)) {
-      fis.log.error('invalid environment variable [' + key + '] of document root [' + path + ']');
+    if (fis.util.exists(rootPath) && !fis.util.isDir(rootPath)) {
+      fis.log.error(`invalid environment variable [${key}] of document root [${rootPath}].`);
     }
 
-    return path;
+    return rootPath;
   }
 
-  if (serverInfo['root'] && fis.util.is(serverInfo['root'], 'String')) {
-    return serverInfo['root'];
+  if (serverInfo.root && fis.util.is(serverInfo.root, 'String')) {
+    return serverInfo.root;
   }
 
   return fis.project.getTempPath('www');
 }
 
 function normalizePath(to, root) {
+  let _to;
+
   if (to[0] === '.') {
-    to = fis.util(cwd + '/' + to);
+    _to = fis.util(`${cwd}/${to}`);
   }
   else if (/^output\b/.test(to)) {
-    to = fis.util(root + '/' + to);
+    _to = fis.util(`${root}/${to}`);
   }
   else if (to === 'preview') {
-    to = getServerRoot();
+    _to = getServerRoot();
   }
   else {
-    to = fis.util(to);
+    _to = fis.util(to);
   }
 
-  return to;
+  return _to;
 }
 
-function noop() {}
+
+cliArgv.forEach((val, i) => {
+  if (val === '-d' || val === '--dest') {
+    dest = cliArgv[i + 1];
+  }
+});
+dest = normalizePath(dest, projectPath);
 
 
-module.exports = function (fis, opts) {
-  var tasks = [];
-  var illegalParamsTip = 'fis-hook-copy lack of `from` or `to` property.';
+module.exports = (fis, opts) => {
+  const illegalParamsTip = 'fis-hook-copy lack of `from` or `to` property.';
+  let tasks = [];
 
   if (!opts) {
     return;
@@ -79,7 +82,9 @@ module.exports = function (fis, opts) {
   }
   else if (opts.from && opts.to) {
     tasks = [
-      {from: opts.from, to: opts.to},
+      {
+        ...opts,
+      },
     ];
   }
   else {
@@ -87,12 +92,9 @@ module.exports = function (fis, opts) {
     return;
   }
 
-
-  fis.on('deploy:end', function () {
-    tasks.forEach(function (o) {
-      var from = o.from;
-      var to = o.to;
-      var symlink = o.symlink;
+  fis.on('deploy:end', () => {
+    tasks.forEach(o => {
+      let { from, to, symlink } = o;
 
       if (!from || !to) {
         fis.log.error(illegalParamsTip);
@@ -106,7 +108,7 @@ module.exports = function (fis, opts) {
         fis.util.copy(from, path.join(to, o.from));
       }
       else if (!fis.util.exists(to)) {
-        var symlinkType = fis.util.isFile(from) ? 'file' : 'dir';
+        const symlinkType = fis.util.isFile(from) ? 'file' : 'dir';
 
         fs.symlinkSync(from, to, symlinkType, noop);
       }

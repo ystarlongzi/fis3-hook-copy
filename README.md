@@ -1,5 +1,5 @@
-fis3-hook-copy
-==============
+fis3-hook-copy [![Build Status](https://travis-ci.org/ystarlongzi/fis3-hook-copy.svg?branch=master)](https://travis-ci.org/ystarlongzi/fis3-hook-copy)
+======================================================================================================================================================
 
 一款基于 fis3 的拷贝文件或目录的插件。
 

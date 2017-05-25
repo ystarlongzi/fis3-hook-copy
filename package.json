@@ -1,7 +1,7 @@
 {
   "author": "zhangzilong.zzl@163.com",
   "name": "fis3-hook-copy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A plugin for fis3 to copy file or directories",
   "repository": {
     "type": "git",
@@ -13,6 +13,8 @@
   "main": "index.js",
   "scripts": {
     "test": " ",
+    "lint": "npm run lint:es",
+    "lint:es": "eslint ./index.js ./.eslintrc.js",
     "lint-staged": "lint-staged",
     "lint-staged:es": "eslint ./.eslintrc.js"
   },

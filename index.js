@@ -4,6 +4,7 @@ const path = require('path');
 const cliArgv = process.argv;
 const cwd = fis.processCWD || process.cwd();
 const projectPath = fis.project.getProjectPath();
+const fileReg = /([^/]+?)$/;
 let dest = 'preview';
 
 
@@ -82,9 +83,7 @@ module.exports = (fis, opts) => {
   }
   else if (opts.from && opts.to) {
     tasks = [
-      {
-        ...opts,
-      },
+      Object.assign({}, opts),
     ];
   }
   else {
@@ -105,7 +104,12 @@ module.exports = (fis, opts) => {
       from = path.join(projectPath, from);
 
       if (!symlink) {
-        fis.util.copy(from, path.join(to, o.from));
+        if (fis.util.isFile(from)) {
+          fis.util.copy(from, path.join(to, from.match(fileReg)[1]));
+        }
+        else {
+          fis.util.copy(from, path.join(to, o.from));
+        }
       }
       else if (!fis.util.exists(to)) {
         const symlinkType = fis.util.isFile(from) ? 'file' : 'dir';

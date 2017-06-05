@@ -4,7 +4,7 @@ const path = require('path');
 const cliArgv = process.argv;
 const cwd = fis.processCWD || process.cwd();
 const projectPath = fis.project.getProjectPath();
-const fileReg = /([^/]+?)$/;
+const fileReg = /([^/\\]+?)$/; // windows 下的路径是反斜杠
 let dest = 'preview';
 
 

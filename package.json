@@ -1,7 +1,7 @@
 {
   "author": "zhangzilong.zzl@163.com",
   "name": "fis3-hook-copy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A plugin for fis3 to copy file or directories",
   "repository": {
     "type": "git",
